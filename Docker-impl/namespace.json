@@ -1,0 +1,11 @@
+{
+    "uts": {
+        "hostname": "luffyluo"
+    },
+    "mnt": {
+        "path": "root"
+    },
+    "RUN": {
+        "program": "/bin/bash"
+    }
+}

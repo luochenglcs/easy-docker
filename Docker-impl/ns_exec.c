@@ -14,22 +14,33 @@
 
 //reference: man setns
 static struct option opts[] = {
-    {"cgroup", 1, 0, 'c'},
+    {"Cgroup", 1, 0, 'C'},
 	{"ipc", 1, 0, 'i' },
 	{"net", 1, 0, 'n' },
 	{"mnt", 1, 0, 'm' },
 	{"pid", 1, 0, 'p' },
 	{"time", 1, 0, 't' },
-	{"user", 1, 0, 's' },
+	{"user", 1, 0, 'U' },
 	{"uts", 1, 0, 'u'},
 	{"all", 1, 0, 'a' },
     {0}
 };
 
-static void usage(void)
+static void usage(char *pname)
 {
-    printf("TO DO!!");
+    fprintf(stderr, "Usage: %s [options] program [arg...]\n", pname);
+    fprintf(stderr, "Options can be:\n");
+    fprintf(stderr, "    -C   unshare cgroup namespace\n");
+    fprintf(stderr, "    -i   unshare IPC namespace\n");
+    fprintf(stderr, "    -m   unshare mount namespace\n");
+    fprintf(stderr, "    -n   unshare network namespace\n");
+    fprintf(stderr, "    -p   unshare PID namespace\n");
+    fprintf(stderr, "    -t   unshare time namespace\n");
+    fprintf(stderr, "    -u   unshare UTS namespace\n");
+    fprintf(stderr, "    -U   unshare user namespace\n");
+    exit(EXIT_FAILURE);
 }
+
 
 int mnt_fd = -1;
 #define array_len(x) (sizeof(x)/sizeof(*(x)))
@@ -131,7 +142,7 @@ main(int argc, char *argv[])
             setnspath(optarg, 0);
             break;
         default:
-            usage();
+            usage(argv[0]);
         }
     }
 
