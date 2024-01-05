@@ -1,3 +1,4 @@
+//reference: man setns
 #define _GNU_SOURCE
 #include <fcntl.h>
 #include <sched.h>
@@ -11,6 +12,7 @@
 #include <ctype.h>
 #include <getopt.h>
 
+//reference: man setns
 static struct option opts[] = {
     {"cgroup", 1, 0, 'c'},
 	{"ipc", 1, 0, 'i' },

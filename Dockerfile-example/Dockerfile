@@ -1,2 +1,2 @@
 FROM ubuntu
-RUN apt-get update && apt install vim -y
+COPY ns_exec /home
