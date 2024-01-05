@@ -64,7 +64,7 @@ main(int argc, char *argv[])
     /* Create child that has its own UTS namespace;
         child commences execution in childFunc(). */
 
-    pid = clone(childFunc, stackTop, CLONE_THREAD | CLONE_VM | CLONE_SIGHAND| CLONE_FS| CLONE_FILES | CLONE_NEWUTS | SIGCHLD, argv[1]);
+    pid = clone(childFunc, stackTop,  CLONE_NEWUTS | SIGCHLD, argv[1]);
     if (pid == -1)
         err(EXIT_FAILURE, "clone");
     printf("clone() returned %jd\n", (intmax_t) pid);
