@@ -3,7 +3,7 @@
         "hostname": "luffyluo"
     },
     "mnt": {
-        "path": "root"
+        "path": "root/"
     },
     "RUN": {
         "program": "/bin/bash"

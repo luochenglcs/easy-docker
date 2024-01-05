@@ -38,7 +38,10 @@ static void setContainerHostname(char *hostname)
 static void setContainerMnt(char *path)
 {
     printf("mount %s /\n", path);
-
+    if(chroot(path) != 0) {
+        printf("chroot failed\n");
+    }
+    chdir ("/");
 }
 
 //reference: man setns
