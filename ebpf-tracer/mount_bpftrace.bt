@@ -1,0 +1,42 @@
+tracepoint:syscalls:sys_enter_mount
+{
+printf("mount %s dev:%s dir:%s type:%s flags:%lx %lx\n",comm, str(args->dev_name), str(args->dir_name), str(args->type), args->flags, args->dev_name);
+}
+
+tracepoint:syscalls:sys_enter_umount
+{
+printf("umount %s name:%s flags:%lx\n", comm, str(args->name), args->flags);
+}
+
+tracepoint:syscalls:sys_enter_fsmount
+{
+printf("%s fsmount\n", comm);
+}
+
+
+tracepoint:syscalls:sys_enter_unshare
+{
+printf("%s unshare %lx\n", comm, args->unshare_flags);
+}
+
+
+tracepoint:syscalls:sys_enter_mount_setattr
+{
+printf("%s mount_setattr\n", comm);
+}
+
+tracepoint:syscalls:sys_enter_pivot_root
+{
+printf("%s pivot_root %s %s\n", comm, str(args->new_root), str(args->put_old));
+}
+
+tracepoint:syscalls:sys_enter_fchdir
+{
+printf("%s fchdir\n", comm);
+}
+
+
+tracepoint:syscalls:sys_enter_chroot
+{
+printf("%s chroot %s\n", comm, str(args->filename));
+}

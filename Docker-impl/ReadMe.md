@@ -5,5 +5,6 @@
 docker pull busybox
 docker export -o busybox.tar `docker run --name test -d busybox top -b`
 docker stop test
+docker remove test
 tar -axvf busybox.tar
 ```

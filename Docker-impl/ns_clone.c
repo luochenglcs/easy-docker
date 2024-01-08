@@ -18,6 +18,11 @@
 #include <cjson/cJSON.h>
 #include <sys/mount.h>
 #include <errno.h>
+#include <sys/syscall.h>      /* Definition of SYS_* constants */
+#include <unistd.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
 static void setContainerHostname(char *hostname)
 {
@@ -37,11 +42,36 @@ static void setContainerHostname(char *hostname)
 
 static void setContainerMnt(char *path)
 {
+    char old_mnt[64];
+#if 0
     printf("mount %s /\n", path);
     if(chroot(path) != 0) {
         printf("chroot failed\n");
     }
     chdir ("/");
+#endif
+    memset(old_mnt, 0, sizeof(old_mnt));
+    sprintf(old_mnt,"%s/old_mnt", path);
+    
+    //unshare(CLONE_NEWNS | CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID | CLONE_NEWNET);
+    unshare(CLONE_NEWNS);
+    //
+    if (mount("", "/", "" , MS_SLAVE | MS_REC, NULL) == -1)
+        printf("mount failed /\n");
+    if (mount(path, path, "bind", 0x5000, NULL) == -1)
+        printf("mount failed %s\n", path);
+    //chroot(path);
+    mkdir(old_mnt, 0x755);
+    if (syscall(SYS_pivot_root, path, old_mnt) == -1)
+        printf("SYS_pivot_root failed\n");
+
+    if (mount("proc", "/proc", "proc", 0xe, 0))
+        printf("mount proc failed\n");
+
+    if (umount2("/old_mnt", MNT_DETACH)) 
+        printf("umount failed %s\n", strerror(errno));
+    rmdir("/old_mnt");
+    chdir("/");
 }
 
 //reference: man setns

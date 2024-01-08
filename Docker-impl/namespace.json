@@ -3,7 +3,7 @@
         "hostname": "luffyluo"
     },
     "mnt": {
-        "path": "root/"
+        "path": "/home/docker/docker-test/Docker-impl/root/"
     },
     "RUN": {
         "program": "/bin/bash"
